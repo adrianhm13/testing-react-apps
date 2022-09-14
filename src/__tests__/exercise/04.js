@@ -7,6 +7,9 @@ import userEvent from '@testing-library/user-event'
 import Login from '../../components/login'
 
 test('submitting the form calls onSubmit with username and password', async () => {
+  const username = 'Adrian Hervas'
+  const password = 'ThisIsAStrongPassword'
+
   let submittedData
 
   const handleSubmit = data => {
@@ -15,18 +18,18 @@ test('submitting the form calls onSubmit with username and password', async () =
 
   render(<Login onSubmit={handleSubmit} />)
 
-  const username = screen.getByLabelText(/username/i)
-  const password = screen.getByLabelText(/password/i)
+  const usernameField = screen.getByLabelText(/username/i)
+  const passwordField = screen.getByLabelText(/password/i)
 
-  await userEvent.type(username, 'Adrian Hervas')
-  await userEvent.type(password, 'ThisIsAStrongPassword')
+  await userEvent.type(usernameField, username)
+  await userEvent.type(passwordField, password)
 
   const submitBtn = screen.getByRole('button', /submit/i)
   await userEvent.click(submitBtn)
 
   expect(submittedData).toEqual({
-    username: 'Adrian Hervas',
-    password: 'ThisIsAStrongPassword',
+    username: username,
+    password: password,
   })
 })
 
